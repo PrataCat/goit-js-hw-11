@@ -61,6 +61,14 @@ async function onClick() {
       loadMoreBtn.disabled = false;
       pageNumber += 1;
       currentElNumber += firstElNumber;
+      const { height: cardHeight } = document
+        .querySelector('.gallery')
+        .firstElementChild.getBoundingClientRect();
+
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: 'smooth',
+      });
     } else {
       Notiflix.Report.info(
         'Pay attention &#128071',
@@ -126,4 +134,5 @@ function createCardList(arr) {
     captionDelay: 250,
     captionClass: '',
   });
+  lightbox.refresh();
 }
