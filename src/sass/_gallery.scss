@@ -57,6 +57,7 @@ input[type='search'] {
   transition-property: width, border-radius;
   position: relative;
 }
+
 .btn-ok {
   display: none;
   position: absolute;
@@ -66,7 +67,13 @@ input[type='search'] {
   font-weight: bold;
   background: var(--color-brand);
   border-radius: 0 var(--rad) var(--rad) 0;
+  transition: 0.3s;
 }
+
+.btn-ok:hover {
+  transform: scale(1.03);
+}
+
 input:not(:placeholder-shown) {
   border-radius: var(--rad) 0 0 var(--rad);
   width: calc(100% - var(--btn-width));
@@ -105,6 +112,8 @@ a {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   overflow: hidden;
+  box-shadow: 0 1px 3px 0 var(--color-brand);
+  text-decoration: none;
 }
 
 .photo-card {

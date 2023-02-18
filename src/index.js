@@ -34,11 +34,11 @@ async function onSubmit(e) {
     const res = await fetchImgs(searchName);
     const hits = await res.data.hits;
     if (hits.length === 0) {
-      const warning = await Notiflix.Notify.warning(
+      const warning = Notiflix.Notify.warning(
         'Sorry, there are no images matching your search query. Please try again.'
       );
     }
-    const CardList = await createCardList(hits);
+    const CardList = createCardList(hits);
     loadMoreBtn.classList.remove('is-hidden');
     pageNumber += 1;
     currentElNumber += firstElNumber;
@@ -56,7 +56,7 @@ async function onClick() {
       loadMoreBtn.textContent = 'Loading...';
       const res = await fetchImgs(searchName);
       const hits = await res.data.hits;
-      const newPackPhoto = await createCardList(hits);
+      const newPackPhoto = createCardList(hits);
       loadMoreBtn.textContent = 'Load more';
       loadMoreBtn.disabled = false;
       pageNumber += 1;
