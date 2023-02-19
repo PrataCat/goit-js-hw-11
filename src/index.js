@@ -1,5 +1,9 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
+Notiflix.Notify.init({
+  timeout: 4000,
+  clickToClose: true,
+});
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
@@ -33,17 +37,18 @@ async function onSubmit(e) {
   try {
     const res = await fetchImgs(searchName);
     const hits = await res.data.hits;
-    if (hits.length === 0) {
+    if (hits.length >= 1) {
+      const CardList = createCardList(hits);
+      loadMoreBtn.classList.remove('is-hidden');
+      pageNumber += 1;
+      currentElNumber += firstElNumber;
+      totalElNumber = res.data.totalHits;
+      Notiflix.Notify.info(`Hooray! We found ${totalElNumber} images.`);
+    } else {
       const warning = Notiflix.Notify.warning(
         'Sorry, there are no images matching your search query. Please try again.'
       );
     }
-    const CardList = createCardList(hits);
-    loadMoreBtn.classList.remove('is-hidden');
-    pageNumber += 1;
-    currentElNumber += firstElNumber;
-    totalElNumber = res.data.totalHits;
-    Notiflix.Notify.info(`Hooray! We found ${totalElNumber} images.`);
   } catch {
     Notiflix.Notify.warning('Oops, something went wrong. Try again');
   }
@@ -70,10 +75,12 @@ async function onClick() {
         behavior: 'smooth',
       });
     } else {
-      Notiflix.Report.info(
-        'Pay attention &#128071',
+    }
+    if (currentElNumber >= totalElNumber) {
+      Notiflix.Notify.info(
         "We're sorry, but you've reached the end of search results."
       );
+      loadMoreBtn.classList.add('is-hidden');
     }
   } catch {
     Notiflix.Notify.warning('Oops');
